@@ -13,11 +13,10 @@
     "crypto-js": "^4.1.1",
     "firebase": "^8.6.7",
     "instascan-umd": "^1.0.1",
-    "next": "^10.2.0",
+    "next": "^11",
     "next-iron-session": "^4.2.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-instascan": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "reactstrap": "^9.1.10"
   },
   "engines": {

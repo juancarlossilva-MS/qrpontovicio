@@ -111,8 +111,8 @@ const onChangeHandler = event => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={styles.paper}>
-        <img className={styles.img} style={{ maxWidth: '62%', minWidth: '62%',    marginLeft: '8%'}} alt="complex" src="logo assoc.png" />
-        <h1>VICIO FEMININO</h1>
+        <img className={styles.img} style={{ maxWidth: '62%', minWidth: '62%',    marginLeft: '8%'}} alt="complex" src="vicio.png" />
+
         <form className={styles.form} noValidate>
           <TextField
             variant="outlined"

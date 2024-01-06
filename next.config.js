@@ -4,10 +4,9 @@ module.exports = {
   loaders: [
       { test: /\.js$/, loader: 'babel', query: {compact: false} }
   ],
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback.fs = false;
-    }
+  webpack5: false,
+  webpack: (config) => {
+    
 	
     config.resolve.extensions = [
       '.web.js',
@@ -27,5 +26,4 @@ module.exports = {
     // Enables the styled-components SWC transform
     styledComponents: true
   },
-  future: { webpack5: true }
 }

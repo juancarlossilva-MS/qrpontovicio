@@ -5,21 +5,10 @@ import {Print, MobileFriendly, Check} from '@material-ui/icons';
 import  Link from 'next/link';
 import Header from "../components/Header";
 
+import Script from 'next/script'
 
-import dynamic from 'next/dynamic';
-
-const QRScanner = dynamic(
-    () => import("../components/QRScanner"),
-    {
-      ssr: false,
-    }
-  );
 
 const PrivatePage = ({ user }) => {
-    if (typeof window === 'undefined') {
-        console.log('é nao temos window');
-        global.window = {}
-      }
 
   const style = {
     txtD:{
@@ -27,6 +16,54 @@ const PrivatePage = ({ user }) => {
       color: '#ff007f'
     }
   };
+
+  let scanner
+
+  const onReadyFunc = () =>{
+    console.log('huuuum... é mesmo?');
+
+      scanner = new Instascan.Scanner(
+          {
+              video: document.getElementById('preview'),mirror: false
+          }
+      );
+      scanner.addListener('scan', function(content) {
+          //alert('Escaneou o conteudo: ' + content);
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition((position)=>{
+                  
+                  document.getElementById('resposta').innerHTML  = content+"<br>Latitude: " + position.coords.latitude + 
+        "<br>Longitude: " + position.coords.longitude;
+              });
+              
+            } else { 
+              document.getElementById('resposta').innerHTML = "Geolocation is not supported by this browser.";
+            }
+          
+          //window.open(content, "_blank");
+      });
+      Instascan.Camera.getCameras().then(cameras => 
+      {
+          if(cameras.length > 0){
+              scanner.start(cameras[0]);
+          } else {
+              alert("Não existe câmera no dispositivo!");
+          }
+      });
+  }
+
+  const inverterCamera = () =>{
+     console.log('inverter camera');
+     Instascan.Camera.getCameras().then(cameras => 
+      {
+          if(cameras.length > 0){
+              scanner.stop(cameras[0]);
+              scanner.start(cameras[1]);
+          } else {
+              alert("Não existe câmera no dispositivo!");
+          }
+      });
+  }
 
 
     return(
@@ -41,9 +78,13 @@ const PrivatePage = ({ user }) => {
 <Header/>
 <div >
           <Grid container spacing={3}> 
+          <video id="preview" style={{width:"100%"}} />
+          <p id="resposta">teeesteee</p>
 
-             <QRScanner/>
-           
+          <Button style={{backgroundColor:"black",color:"#ff007f"}} onClick={inverterCamera}>Inverter Camera</Button>
+
+                <Script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"  onLoad={onReadyFunc} />
+             
           </Grid>
 </div>
 
